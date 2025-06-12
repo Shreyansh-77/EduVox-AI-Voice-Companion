@@ -22,6 +22,8 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { subjects } from "@/constants"
+import { useRouter } from "next/navigation"
+import { createCompanion } from "@/lib/actions/companion.actions"
 
 const formSchema = z.object({
   name: z.string().min(1, "Companion name is required"),
@@ -33,6 +35,7 @@ const formSchema = z.object({
 })
 
 const CompanionForm = () => {
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -46,8 +49,20 @@ const CompanionForm = () => {
     },
   })
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log(values)
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    try {
+      const companion = await createCompanion(values);
+
+      if(companion) {
+        router.push(`/companions/${companion.id}`);
+      } else {
+        console.error("Failed to create companion");
+        router.push(`/`);
+      }
+    } catch (error) {
+      console.error("Error creating companion:", error);
+      router.push(`/`);
+    }
   }
 
   return (
@@ -77,7 +92,7 @@ const CompanionForm = () => {
                   onValueChange={field.onChange}
                   value={field.value}
                   defaultValue={field.value}
-                  
+
                   >
                   <SelectTrigger className="input capitalize">
                     <SelectValue placeholder="Select the subject" />
@@ -123,7 +138,7 @@ const CompanionForm = () => {
                   onValueChange={field.onChange}
                   value={field.value}
                   defaultValue={field.value}
-                  
+
                   >
                   <SelectTrigger className="input">
                     <SelectValue placeholder="Select the voice" />
@@ -153,7 +168,7 @@ const CompanionForm = () => {
                   onValueChange={field.onChange}
                   value={field.value}
                   defaultValue={field.value}
-                  
+
                   >
                   <SelectTrigger className="input">
                     <SelectValue placeholder="Select the style" />
