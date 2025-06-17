@@ -11,6 +11,7 @@ import { subjects } from "@/constants";
 import { cn, getSubjectColor } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
+import { boolean } from "zod/v4-mini";
 
 interface CompanionListProps {
     title: string;
@@ -46,7 +47,7 @@ const CompanionList = ({ title, companions, className }: CompanionListProps) => 
                                             />
                                         </div>
                                         <div className="flex flex-col gap-2">
-                                            <p className="text-bold taxt-2x1">
+                                            <p className="text-bold taxt-2xl">
                                                 {name}
                                             </p>
                                             <p className="text-lg">
@@ -60,7 +61,7 @@ const CompanionList = ({ title, companions, className }: CompanionListProps) => 
                                 <div className="subject-badge w-fit max-md:hidden">
                                     {subject}
                                 </div>
-                                <div className="flex items-center justify-center rounded-lg wi-fit p-2 md:hidden" style={{ backgroundColor: getSubjectColor(subject) }}>
+                                <div className="flex items-center justify-center rounded-lg w-fit p-2 md:hidden" style={{ backgroundColor: getSubjectColor(subject) }}>
                                     <Image
                                         src={`/icons/${subject}.svg`}
                                         alt={subject}
@@ -71,7 +72,7 @@ const CompanionList = ({ title, companions, className }: CompanionListProps) => 
                             </TableCell>
                             <TableCell>
                                 <div className="flex items-center gap-2 w-full justify-end">
-                                    <p className="text-2x1">
+                                    <p className="text-2xl">
                                         {duration} {' '}
                                         <span className="max-md:hidden">mins</span>
                                     </p>

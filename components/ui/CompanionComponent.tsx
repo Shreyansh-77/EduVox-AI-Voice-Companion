@@ -7,6 +7,7 @@ import React, { useEffect, useState } from 'react'
 import Lottie, { LottieRefCurrentProps } from 'lottie-react';
 import soundwaves from '@/constants/soundwaves.json';
 import { Variable } from 'lucide-react';
+import { addToSessionHistory } from '@/lib/actions/companion.actions';
 
 enum CallStatus {
     INACTIVE = 'INACTIVE',
@@ -31,10 +32,14 @@ const CompanionComponent = ({ companionId, subject, topic, name, userName, userI
 
 
     useEffect(() => {
-        const onCallStart = () => setCallStatus(CallStatus.ACTIVE);
+        const onCallStart = () => {setCallStatus(CallStatus.ACTIVE);
+            console.log(companionId)
+        }
 
-        const onCallEnd = () => setCallStatus(CallStatus.FINISHED);
-
+        const onCallEnd = () => {
+            setCallStatus(CallStatus.FINISHED);
+            addToSessionHistory(companionId);
+        }
         const onMessage = (message: Message) => {
             if (message.type === 'transcript' && message.transcriptType === 'final') {
                 const newMessage = { role: message.role, content: message.transcript };
@@ -133,13 +138,15 @@ const CompanionComponent = ({ companionId, subject, topic, name, userName, userI
                     {message.map((message, index) => {
                         if (message.role === 'assistant') {
                             return (
-                                <p key={index} className='text-black max-sm:text-sm'>
-                                    {name.split(' ')[0].replace('/[.,]/g,', '')
+                                <p key={index} className='max-sm:text-sm'>
+                                    {name
+                                        .split(' ')[0]
+                                        .replace('/[.,]/g,', '')
                                 }:{message.content}
                                 </p>
                             )
                         }else{
-                            <p key={message.content} className='text-primary max-sm:text-sm'>
+                            <p key={index} className='text-primary max-sm:text-sm'>
                                 {userName}:{message.content}
                             </p>
                         }
