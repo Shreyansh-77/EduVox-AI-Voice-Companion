@@ -1,5 +1,5 @@
 import CompanionComponent from "@/components/ui/CompanionComponent";
-import { getCompanion } from "@/lib/actions/companion.actions";
+import { getCompanion, newConversationPermission } from "@/lib/actions/companion.actions";
 import { getSubjectColor } from "@/lib/utils";
 import { currentUser } from "@clerk/nextjs/server";
 import Image from "next/image";
@@ -13,13 +13,17 @@ const CompanionSession = async ({ params }: CompanionSessionPageProps) => {
   const { id } = await params;
   const companion = await getCompanion(id);
   const user = await currentUser();
+  const conversationPermission = await newConversationPermission();
 
-
+  if (!conversationPermission) redirect('/subscription');
   if (!user) redirect('/sign-in');
   if (!companion) redirect('/companions')
 
+
   return (
+    
     <main>
+      
       <article className="flex rounded-border justify-between p-6 max-md:flex-col">
         <div className="flex items-center gap-2">
           <div className="size-[72px] flex items-center justify-center rounded-lg " style={{ backgroundColor: getSubjectColor(companion.subject) }}>

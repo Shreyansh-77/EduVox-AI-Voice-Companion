@@ -7,12 +7,14 @@ const Navbar = () => {
   return (
     <nav className='navbar'>
         <Link href="/">
-            <div className='flex items-center gap-2.5 cursor-pointer'>
+            <div className='flex items-center gap-2.5 cursor-pointer rounded-md'>
                 <Image
-                    src="/favicon.ico" 
+                    src="icons/favicon.svg" 
                     alt="Logo" 
-                    width={46}
-                    height={44} />
+                    width={40}
+                    height={40} 
+                    className='rounded-2xl'/>
+                <h1 className='text-xl font-bold'>EduVox</h1>
             </div>
         </Link>
         <div className='flex items-center gap-4'>

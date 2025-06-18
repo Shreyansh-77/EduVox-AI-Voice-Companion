@@ -72,7 +72,7 @@ const CompanionList = ({ title, companions, className }: CompanionListProps) => 
                             </TableCell>
                             <TableCell>
                                 <div className="flex items-center gap-2 w-full justify-end">
-                                    <p className="text-2xl">
+                                    <p className="text-xl">
                                         {duration} {' '}
                                         <span className="max-md:hidden">mins</span>
                                     </p>
